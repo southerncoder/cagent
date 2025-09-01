@@ -8,6 +8,7 @@ import (
 	"io"
 	"log/slog"
 	"strings"
+	"time"
 
 	"github.com/docker/cagent/pkg/agent"
 	"github.com/docker/cagent/pkg/chat"
@@ -223,6 +224,7 @@ func (r *Runtime) RunStream(ctx context.Context, sess *session.Session) <-chan E
 				Role:      chat.MessageRoleAssistant,
 				Content:   content,
 				ToolCalls: calls,
+				CreatedAt: time.Now(),
 			}
 
 			sess.AddMessage(session.NewAgentMessage(a, &assistantMessage))
@@ -544,6 +546,7 @@ func (r *Runtime) runTool(ctx context.Context, tool tools.Tool, toolCall tools.T
 		Role:       chat.MessageRoleTool,
 		Content:    res.Output,
 		ToolCallID: toolCall.ID,
+		CreatedAt:  time.Now(),
 	}
 	sess.AddMessage(session.NewAgentMessage(a, &toolResponseMsg))
 }
@@ -584,6 +587,7 @@ func (r *Runtime) runAgentTool(ctx context.Context, handler ToolHandler, sess *s
 		Role:       chat.MessageRoleTool,
 		Content:    output,
 		ToolCallID: toolCall.ID,
+		CreatedAt:  time.Now(),
 	}
 	sess.AddMessage(session.NewAgentMessage(a, &toolResponseMsg))
 }
@@ -614,6 +618,7 @@ func (r *Runtime) addToolCancelledResponse(sess *session.Session, toolCall tools
 		Role:       chat.MessageRoleTool,
 		Content:    result,
 		ToolCallID: toolCall.ID,
+		CreatedAt:  time.Now(),
 	}
 	sess.AddMessage(session.NewAgentMessage(a, &toolResponseMsg))
 }
