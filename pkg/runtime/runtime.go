@@ -603,6 +603,7 @@ func (r *Runtime) addToolRejectedResponse(sess *session.Session, toolCall tools.
 		Role:       chat.MessageRoleTool,
 		Content:    result,
 		ToolCallID: toolCall.ID,
+		CreatedAt:  time.Now().Format(time.RFC3339),
 	}
 	sess.AddMessage(session.NewAgentMessage(a, &toolResponseMsg))
 }
