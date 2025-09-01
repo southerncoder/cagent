@@ -1,8 +1,6 @@
 package chat
 
 import (
-	"time"
-
 	"github.com/docker/cagent/pkg/tools"
 )
 
@@ -61,7 +59,8 @@ type Message struct {
 	// For Role=tool prompts this should be set to the ID given in the assistant's prior request to call a tool.
 	ToolCallID string `json:"tool_call_id,omitempty"`
 
-	CreatedAt time.Time `json:"created_at"`
+	// CreatedAt is the time the message was created
+	CreatedAt string `json:"created_at,omitempty"`
 }
 
 type MessagePart struct {
